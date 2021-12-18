@@ -10,8 +10,11 @@ if (confirm("Quer iniciar uma nova rodada?")) {
     let carta = comprarCarta()
     pontosJogador += carta.valor
     cartasJogador += carta.carta
+    if (pontosJogador > 21) {
+       comprar = false
+       continue
+    }
     let continuar = confirm(`Suas cartas são: ${cartasJogador} = ${pontosJogador}\nVocê quer comprar mais uma carta?`)
-
     if (!continuar) {
         comprar = false
     }
@@ -24,14 +27,27 @@ if (confirm("Quer iniciar uma nova rodada?")) {
    }
 
    // FIX: os dois ifs abaixo são executados juntos quando computador tem mais pontos que o jogador, estourando no 21
-   if (pontosComputador > 21 || pontosJogador > pontosComputador) {
-       alert(`O Jogador venceu!\nCartas do Jogador: ${cartasJogador} = ${pontosJogador}\nCartas do Computador: ${cartasComputador} = ${pontosComputador}\nObrigado por jogar!`)
+   let resultado = `Cartas do Jogador: ${cartasJogador} = ${pontosJogador}\nCartas do Computador: ${cartasComputador} = ${pontosComputador}\nObrigado por jogar!`
+   let jogadorVenceu = `O Jogador venceu!\n` + resultado
+   let computadorVenceu = `O Computador venceu!\n` + resultado
+   let ninguemVenceu = `Ninguém venceu!\n` + resultado
+   let deuEmpate = `Deu empate!\n` + resultado
+   if (pontosJogador < 22 && pontosComputador < 22) {
+      if (pontosJogador > pontosComputador) {
+         alert(jogadorVenceu)
+      }
+      if (pontosComputador > pontosJogador) {
+         alert(computadorVenceu)
+      }
+      if (pontosJogador == pontosComputador) {
+          alert(deuEmpate)
+      }
    }
-   if (pontosJogador > 21 || pontosComputador > pontosJogador) {
-       alert(`O Computador venceu!\nCartas do Jogador: ${cartasJogador} = ${pontosJogador}\nCartas do Computador: ${cartasComputador} = ${pontosComputador}\nObrigado por jogar!`)
+   if (pontosJogador < 22 && pontosComputador > 21) {
+      alert(`O Computador passou de 21\n` + jogadorVenceu)
    }
-   if (pontosJogador == pontosComputador) {
-       alert(`Deu empate!\nCartas do Jogador: ${cartasJogador} = ${pontosJogador}\nCartas do Computador: ${cartasComputador} = ${pontosComputador}\nObrigado por jogar!`)
+   if (pontosComputador < 22 && pontosJogador > 21) {
+      alert(`O Jogador passou de 21\n` + computadorVenceu)
    }
 }
 
@@ -41,7 +57,7 @@ function comprarCarta() {
    let carta = cartas()
    let naipe = naipes()
    let valor = pegarValor(carta)
-   return {carta: carta+naipe, valor: valor}
+   return {carta: carta+naipe+" ", valor: valor}
 }
 
 function cartas() {
