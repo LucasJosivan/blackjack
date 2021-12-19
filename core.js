@@ -26,7 +26,6 @@ if (confirm("Quer iniciar uma nova rodada?")) {
     cartasComputador += carta.carta
    }
 
-   // FIX: os dois ifs abaixo são executados juntos quando computador tem mais pontos que o jogador, estourando no 21
    let resultado = `Cartas do Jogador: ${cartasJogador} = ${pontosJogador}\nCartas do Computador: ${cartasComputador} = ${pontosComputador}\nObrigado por jogar!`
    let jogadorVenceu = `O Jogador venceu!\n` + resultado
    let computadorVenceu = `O Computador venceu!\n` + resultado
@@ -48,6 +47,9 @@ if (confirm("Quer iniciar uma nova rodada?")) {
    }
    if (pontosComputador < 22 && pontosJogador > 21) {
       alert(`O Jogador passou de 21\n` + computadorVenceu)
+   }
+   if (pontosComputador > 21 && pontosJogador > 21) {
+      alert(ninguemVenceu)
    }
 }
 
